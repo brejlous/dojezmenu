@@ -1,26 +1,37 @@
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
+import { getRestauraceByUserId, getNabidkyByRestauraceId, getRezervaceByNabidkaId } from '@/lib/db'
+import { formatCena, getSlevaPercent } from '@/lib/data'
 import StatusBadge from '@/components/StatusBadge'
-import {
-  restaurace,
-  getNabidkyByRestauraceId,
-  getRezervaceByNabidkaId,
-  formatCena,
-  getSlevaPercent,
-} from '@/lib/data'
+import { deactivateNabidka, updateStavRezervace } from '@/app/actions/nabidky'
+import { logout } from '@/app/actions/auth'
 
-const DEMO_RESTAURACE_ID = 'r1'
+export default async function DashboardPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/restaurace/login')
 
-export default function DashboardPage() {
-  const rest = restaurace.find((r) => r.id === DEMO_RESTAURACE_ID)!
-  const nabidky = getNabidkyByRestauraceId(DEMO_RESTAURACE_ID)
+  const rest = await getRestauraceByUserId(user.id)
+  if (!rest) redirect('/restaurace/login')
 
-  const vsechnyRezervace = nabidky.flatMap((n) =>
-    getRezervaceByNabidkaId(n.id).map((rez) => ({ ...rez, nabidkaNazev: n.nazev }))
-  )
+  const nabidky = await getNabidkyByRestauraceId(rest.id)
 
-  const celkemTrzby = nabidky
-    .flatMap((n) => getRezervaceByNabidkaId(n.id).map((r) => r.pocetPorci * n.zvyhodnenaCena))
-    .reduce((sum, v) => sum + v, 0)
+  const vsechnyRezervace = (
+    await Promise.all(
+      nabidky.map(async (n) => {
+        const rez = await getRezervaceByNabidkaId(n.id)
+        return rez.map((r) => ({ ...r, nabidkaNazev: n.nazev }))
+      })
+    )
+  ).flat()
+
+  const celkemTrzby = vsechnyRezervace.reduce((sum, r) => {
+    const nabidka = nabidky.find((n) => n.id === r.nabidkaId)
+    return sum + (nabidka ? r.pocetPorci * nabidka.zvyhodnenaCena : 0)
+  }, 0)
+
+  const aktivniNabidky = nabidky.filter((n) => n.aktivni)
 
   return (
     <div>
@@ -39,6 +50,13 @@ export default function DashboardPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </Link>
+            <form action={logout}>
+              <button type="submit" className="text-brand-light/70 hover:text-white transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </button>
+            </form>
             <Link href="/" className="text-brand-light/70 hover:text-white transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -49,7 +67,7 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-3 gap-2 mt-4">
           <div className="bg-white/10 rounded-xl p-2 text-center">
-            <div className="text-xl font-bold">{nabidky.length}</div>
+            <div className="text-xl font-bold">{aktivniNabidky.length}</div>
             <div className="text-xs text-brand-light/70">nabídek</div>
           </div>
           <div className="bg-white/10 rounded-xl p-2 text-center">
@@ -76,9 +94,13 @@ export default function DashboardPage() {
 
         <h2 className="font-semibold text-gray-800 mt-5 mb-3">Aktivní nabídky</h2>
 
+        {aktivniNabidky.length === 0 && (
+          <p className="text-gray-400 text-sm mb-6">Žádné aktivní nabídky.</p>
+        )}
+
         <div className="flex flex-col gap-3 mb-6">
-          {nabidky.map((nabidka) => {
-            const rezervace = getRezervaceByNabidkaId(nabidka.id)
+          {aktivniNabidky.map((nabidka) => {
+            const rezervace = vsechnyRezervace.filter((r) => r.nabidkaId === nabidka.id)
             const sleva = getSlevaPercent(nabidka.originalniCena, nabidka.zvyhodnenaCena)
             const obsazenost = nabidka.celkemKusu - nabidka.zbyvajiciKusu
 
@@ -131,7 +153,9 @@ export default function DashboardPage() {
 
                   <div className="flex gap-2 mt-3">
                     <button className="flex-1 text-xs border border-gray-200 text-gray-500 py-2 rounded-xl hover:bg-gray-50 transition-colors">Upravit</button>
-                    <button className="flex-1 text-xs border border-red-200 text-red-500 py-2 rounded-xl hover:bg-red-50 transition-colors">Ukončit</button>
+                    <form action={deactivateNabidka.bind(null, nabidka.id)} className="flex-1">
+                      <button type="submit" className="w-full text-xs border border-red-200 text-red-500 py-2 rounded-xl hover:bg-red-50 transition-colors">Ukončit</button>
+                    </form>
                   </div>
                 </div>
               </div>

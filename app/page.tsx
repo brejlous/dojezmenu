@@ -1,12 +1,10 @@
 import Link from 'next/link'
 import NabidkyList from '@/components/NabidkyList'
-import { nabidky, getRestauraceById } from '@/lib/data'
+import { getAktivniNabidky, getRestauraceMap } from '@/lib/db'
 
-export default function HomePage() {
-  const aktivniNabidky = nabidky.filter((n) => n.aktivni)
-  const restauraceMap = Object.fromEntries(
-    aktivniNabidky.map((n) => [n.restauraceId, getRestauraceById(n.restauraceId)!]).filter(([, r]) => r)
-  )
+export default async function HomePage() {
+  const nabidky = await getAktivniNabidky()
+  const restauraceMap = await getRestauraceMap(nabidky)
 
   return (
     <div>
@@ -33,7 +31,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <NabidkyList nabidky={aktivniNabidky} restauraceMap={restauraceMap} />
+      <NabidkyList nabidky={nabidky} restauraceMap={restauraceMap} />
 
       <div className="mt-10 bg-brand-light rounded-2xl p-5 text-center border border-brand-muted">
         <p className="text-2xl mb-2">🍽️</p>

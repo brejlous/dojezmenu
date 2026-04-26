@@ -1,9 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useState } from 'react'
-import { getNabidkaById, getRestauraceById, formatCena } from '@/lib/data'
+import { useState, useTransition } from 'react'
+import type { Nabidka, Restaurace } from '@/lib/data'
+import { formatCena } from '@/lib/data'
+import { createRezervace } from '@/app/actions/rezervace'
 
 const categoryEmoji: Record<string, string> = {
   ceska: '🥩',
@@ -13,14 +14,16 @@ const categoryEmoji: Record<string, string> = {
   vegetarianska: '🥗',
 }
 
-export default function RezervaceClient({ id }: { id: string }) {
-  const nabidka = getNabidkaById(id)
-  const restaurace = nabidka ? getRestauraceById(nabidka.restauraceId) : null
-  const router = useRouter()
+type Props = {
+  id: string
+  nabidka: Nabidka | null
+  restaurace: Restaurace | null
+}
 
-  const [form, setForm] = useState({ jmeno: '', kontakt: '', poznamka: '' })
+export default function RezervaceClient({ id, nabidka, restaurace }: Props) {
   const [pocetPorci, setPocetPorci] = useState(1)
-  const [odesila, setOdesila] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [isPending, startTransition] = useTransition()
 
   if (!nabidka || !restaurace) {
     return (
@@ -35,24 +38,15 @@ export default function RezervaceClient({ id }: { id: string }) {
   const celkem = pocetPorci * nabidka.zvyhodnenaCena
   const emoji = categoryEmoji[nabidka.kategorie] ?? '🍽️'
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setOdesila(true)
-    await new Promise((r) => setTimeout(r, 800))
-    const urlParams = new URLSearchParams({
-      jmeno: form.jmeno,
-      pocet: String(pocetPorci),
-      nabidka: nabidka!.nazev,
-      restaurace: restaurace!.nazev,
-      adresa: `${restaurace!.adresa}, ${restaurace!.mesto}`,
-      cas: `${nabidka!.vyzvednoutOd}–${nabidka!.vyzvednoutDo}`,
-      celkem: String(celkem),
+    const formData = new FormData(e.currentTarget)
+    formData.set('pocetPorci', String(pocetPorci))
+    setError(null)
+    startTransition(async () => {
+      const result = await createRezervace(id, formData)
+      if (result?.error) setError(result.error)
     })
-    router.push(`/rezervace/${id}/potvrzeni?${urlParams.toString()}`)
   }
 
   return (
@@ -68,7 +62,6 @@ export default function RezervaceClient({ id }: { id: string }) {
       </div>
 
       <div className="mt-5">
-        {/* Summary strip */}
         <div className="bg-brand-light border border-brand-muted rounded-2xl p-4 flex items-center gap-3 mb-6">
           <span className="text-3xl">{emoji}</span>
           <div className="flex-1 min-w-0">
@@ -89,8 +82,6 @@ export default function RezervaceClient({ id }: { id: string }) {
             <input
               type="text"
               name="jmeno"
-              value={form.jmeno}
-              onChange={handleChange}
               required
               placeholder="Jan Novák"
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
@@ -104,8 +95,6 @@ export default function RezervaceClient({ id }: { id: string }) {
             <input
               type="text"
               name="kontakt"
-              value={form.kontakt}
-              onChange={handleChange}
               required
               placeholder="+420 777 123 456 nebo jan@email.cz"
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
@@ -154,20 +143,22 @@ export default function RezervaceClient({ id }: { id: string }) {
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Poznámka (nepovinné)</label>
             <textarea
               name="poznamka"
-              value={form.poznamka}
-              onChange={handleChange}
               rows={2}
               placeholder="Např. alergie, speciální požadavky…"
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all resize-none"
             />
           </div>
 
+          {error && (
+            <p className="text-sm text-red-500 bg-red-50 border border-red-100 rounded-xl px-4 py-3">{error}</p>
+          )}
+
           <button
             type="submit"
-            disabled={odesila}
+            disabled={isPending}
             className="w-full bg-brand hover:bg-brand-hover disabled:bg-brand-muted text-white font-semibold py-3.5 rounded-2xl text-base transition-colors"
           >
-            {odesila ? 'Odesílám…' : 'Potvrdit rezervaci'}
+            {isPending ? 'Odesílám…' : 'Potvrdit rezervaci'}
           </button>
 
           <p className="text-xs text-gray-400 text-center">

@@ -1,11 +1,9 @@
-import { nabidky } from '@/lib/data'
+import { getNabidkaById, getRestauraceById } from '@/lib/db'
 import RezervaceClient from './RezervaceClient'
-
-export function generateStaticParams() {
-  return nabidky.map((n) => ({ id: n.id }))
-}
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  return <RezervaceClient id={id} />
+  const nabidka = await getNabidkaById(id)
+  const restaurace = nabidka ? await getRestauraceById(nabidka.restauraceId) : null
+  return <RezervaceClient id={id} nabidka={nabidka ?? null} restaurace={restaurace ?? null} />
 }

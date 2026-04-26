@@ -1,10 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { nabidky, getNabidkaById, getRestauraceById, formatCena, getSlevaPercent } from '@/lib/data'
-
-export function generateStaticParams() {
-  return nabidky.map((n) => ({ id: n.id }))
-}
+import { getNabidkaById, getRestauraceById } from '@/lib/db'
+import { formatCena, getSlevaPercent } from '@/lib/data'
 
 const categoryGradient: Record<string, string> = {
   ceska: 'from-amber-100 to-orange-100',
@@ -24,10 +21,10 @@ const categoryEmoji: Record<string, string> = {
 
 export default async function NabidkaDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const nabidka = getNabidkaById(id)
+  const nabidka = await getNabidkaById(id)
   if (!nabidka) notFound()
 
-  const restaurace = getRestauraceById(nabidka.restauraceId)
+  const restaurace = await getRestauraceById(nabidka.restauraceId)
   if (!restaurace) notFound()
 
   const sleva = getSlevaPercent(nabidka.originalniCena, nabidka.zvyhodnenaCena)

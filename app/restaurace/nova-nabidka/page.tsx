@@ -1,63 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { kategorieLabels } from '@/lib/data'
+import { createNabidka } from '@/app/actions/nabidky'
 
 export default function NovaNabidkaPage() {
-  const router = useRouter()
-  const [odesila, setOdesila] = useState(false)
-  const [uspesne, setUspesne] = useState(false)
   const [celkemKusu, setCelkemKusu] = useState(5)
+  const [error, setError] = useState<string | null>(null)
+  const [isPending, startTransition] = useTransition()
 
-  const [form, setForm] = useState({
-    nazev: '',
-    popis: '',
-    originalniCena: '',
-    zvyhodnenaCena: '',
-    vyzvednoutOd: '13:00',
-    vyzvednoutDo: '15:30',
-    kategorie: 'ceska' as keyof typeof kategorieLabels,
-    poznamka: '',
-  })
-
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-
-  const originalniCena = parseFloat(form.originalniCena) || 0
-  const zvyhodnenaCena = parseFloat(form.zvyhodnenaCena) || 0
+  const [prices, setPrices] = useState({ originalni: '', zvyhodnena: '' })
+  const originalniCena = parseFloat(prices.originalni) || 0
+  const zvyhodnenaCena = parseFloat(prices.zvyhodnena) || 0
   const sleva = originalniCena > 0 && zvyhodnenaCena > 0
-    ? Math.round(((originalniCena - zvyhodnenaCena) / originalniCena) * 100)
-    : 0
-  const usporite = originalniCena > 0 && zvyhodnenaCena > 0
-    ? originalniCena - zvyhodnenaCena
-    : 0
+    ? Math.round(((originalniCena - zvyhodnenaCena) / originalniCena) * 100) : 0
+  const usporite = originalniCena > 0 && zvyhodnenaCena > 0 ? originalniCena - zvyhodnenaCena : 0
 
-  async function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setOdesila(true)
-    await new Promise((r) => setTimeout(r, 900))
-    setUspesne(true)
-    await new Promise((r) => setTimeout(r, 1500))
-    router.push('/restaurace/dashboard')
-  }
-
-  if (uspesne) {
-    return (
-      <div className="flex flex-col items-center text-center py-16">
-        <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mb-4">
-          <svg className="w-8 h-8 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-          </svg>
-        </div>
-        <h2 className="text-xl font-bold text-gray-900 mb-1">Nabídka zveřejněna!</h2>
-        <p className="text-gray-500 text-sm">Přesměrování na dashboard…</p>
-      </div>
-    )
+    const formData = new FormData(e.currentTarget)
+    formData.set('celkemKusu', String(celkemKusu))
+    setError(null)
+    startTransition(async () => {
+      const result = await createNabidka(formData)
+      if (result?.error) setError(result.error)
+    })
   }
 
   return (
@@ -85,31 +53,26 @@ export default function NovaNabidkaPage() {
               <input
                 type="text"
                 name="nazev"
-                value={form.nazev}
-                onChange={handleChange}
                 required
                 placeholder="např. Kuřecí kari s rýží"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Popis</label>
               <textarea
                 name="popis"
-                value={form.popis}
-                onChange={handleChange}
                 rows={3}
                 placeholder="Krátký popis jídla, alergenů nebo velikosti porce…"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all resize-none text-base"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all resize-none"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Kategorie</label>
               <select
                 name="kategorie"
-                value={form.kategorie}
-                onChange={handleChange}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all bg-white text-base"
+                defaultValue="ceska"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all bg-white"
               >
                 {Object.entries(kategorieLabels).map(([k, v]) => (
                   <option key={k} value={k}>{v}</option>
@@ -131,12 +94,12 @@ export default function NovaNabidkaPage() {
                 <input
                   type="number"
                   name="originalniCena"
-                  value={form.originalniCena}
-                  onChange={handleChange}
+                  value={prices.originalni}
+                  onChange={(e) => setPrices((p) => ({ ...p, originalni: e.target.value }))}
                   required
                   min="1"
                   placeholder="169"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all pr-10 text-base"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all pr-10"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">Kč</span>
               </div>
@@ -149,12 +112,12 @@ export default function NovaNabidkaPage() {
                 <input
                   type="number"
                   name="zvyhodnenaCena"
-                  value={form.zvyhodnenaCena}
-                  onChange={handleChange}
+                  value={prices.zvyhodnena}
+                  onChange={(e) => setPrices((p) => ({ ...p, zvyhodnena: e.target.value }))}
                   required
                   min="1"
                   placeholder="109"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all pr-10 text-base"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all pr-10"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">Kč</span>
               </div>
@@ -193,7 +156,7 @@ export default function NovaNabidkaPage() {
                 onChange={(e) => setCelkemKusu(Math.max(1, parseInt(e.target.value) || 1))}
                 min="1"
                 max="50"
-                className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm text-center font-semibold outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted"
+                className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-base text-center font-semibold outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted"
               />
               <button
                 type="button"
@@ -211,29 +174,23 @@ export default function NovaNabidkaPage() {
           <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Čas vyzvednutí</h2>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Od <span className="text-red-500">*</span>
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Od <span className="text-red-500">*</span></label>
               <input
                 type="time"
                 name="vyzvednoutOd"
-                value={form.vyzvednoutOd}
-                onChange={handleChange}
+                defaultValue="13:00"
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Do <span className="text-red-500">*</span>
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Do <span className="text-red-500">*</span></label>
               <input
                 type="time"
                 name="vyzvednoutDo"
-                value={form.vyzvednoutDo}
-                onChange={handleChange}
+                defaultValue="15:30"
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
               />
             </div>
           </div>
@@ -244,20 +201,22 @@ export default function NovaNabidkaPage() {
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Poznámka pro zákazníky</label>
           <textarea
             name="poznamka"
-            value={form.poznamka}
-            onChange={handleChange}
             rows={2}
             placeholder="Volitelná poznámka (alergie, způsob platby, instrukce k vyzvednutí…)"
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all resize-none text-base"
+            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all resize-none"
           />
         </div>
 
+        {error && (
+          <p className="text-sm text-red-500 bg-red-50 border border-red-100 rounded-xl px-4 py-3">{error}</p>
+        )}
+
         <button
           type="submit"
-          disabled={odesila}
+          disabled={isPending}
           className="w-full bg-brand hover:bg-brand-hover disabled:bg-brand-muted text-white font-semibold py-3.5 rounded-2xl text-base transition-colors"
         >
-          {odesila ? 'Ukládám…' : 'Zveřejnit nabídku'}
+          {isPending ? 'Ukládám…' : 'Zveřejnit nabídku'}
         </button>
 
         <Link
