@@ -33,7 +33,7 @@ export default function NabidkyList({ nabidky, restauraceMap }: Props) {
           <button
             key={f.key}
             onClick={() => setAktivniFiltr(f.key)}
-            className={`shrink-0 text-xs px-3 py-1.5 rounded-full border font-medium transition-all whitespace-nowrap ${
+            className={`shrink-0 text-xs px-3 py-2.5 rounded-full border font-medium transition-all whitespace-nowrap ${
               aktivniFiltr === f.key
                 ? 'bg-green-600 text-white border-green-600'
                 : 'bg-white text-gray-600 border-gray-200 hover:border-green-300'

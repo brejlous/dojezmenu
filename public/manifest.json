@@ -1,0 +1,9 @@
+{
+  "name": "DojezMenu",
+  "short_name": "DojezMenu",
+  "description": "Zbylé porce za lepší cenu. Rezervuj, vyzvedni, zachraň jídlo.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#16a34a"
+}

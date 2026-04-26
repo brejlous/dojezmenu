@@ -100,7 +100,7 @@ export default function NovaNabidkaPage() {
                 onChange={handleChange}
                 rows={3}
                 placeholder="Krátký popis jídla, alergenů nebo velikosti porce…"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all resize-none"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all resize-none text-base"
               />
             </div>
             <div>
@@ -109,7 +109,7 @@ export default function NovaNabidkaPage() {
                 name="kategorie"
                 value={form.kategorie}
                 onChange={handleChange}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white text-base"
               >
                 {Object.entries(kategorieLabels).map(([k, v]) => (
                   <option key={k} value={k}>{v}</option>
@@ -136,7 +136,7 @@ export default function NovaNabidkaPage() {
                   required
                   min="1"
                   placeholder="169"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all pr-10"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all pr-10 text-base"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">Kč</span>
               </div>
@@ -154,7 +154,7 @@ export default function NovaNabidkaPage() {
                   required
                   min="1"
                   placeholder="109"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all pr-10"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all pr-10 text-base"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">Kč</span>
               </div>
@@ -183,7 +183,7 @@ export default function NovaNabidkaPage() {
               <button
                 type="button"
                 onClick={() => setCelkemKusu((n) => Math.max(1, n - 1))}
-                className="w-10 h-10 rounded-xl border border-gray-200 text-gray-600 text-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+                className="w-11 h-11 rounded-xl border border-gray-200 text-gray-600 text-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
               >
                 −
               </button>
@@ -198,7 +198,7 @@ export default function NovaNabidkaPage() {
               <button
                 type="button"
                 onClick={() => setCelkemKusu((n) => Math.min(50, n + 1))}
-                className="w-10 h-10 rounded-xl border border-gray-200 text-gray-600 text-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+                className="w-11 h-11 rounded-xl border border-gray-200 text-gray-600 text-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
               >
                 +
               </button>
@@ -248,7 +248,7 @@ export default function NovaNabidkaPage() {
             onChange={handleChange}
             rows={2}
             placeholder="Volitelná poznámka (alergie, způsob platby, instrukce k vyzvednutí…)"
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all resize-none"
+            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all resize-none text-base"
           />
         </div>
 

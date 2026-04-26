@@ -75,7 +75,7 @@ export default function NastaveniPage() {
                 name="kategorie"
                 value={form.kategorie}
                 onChange={handleChange}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white text-base"
               >
                 {Object.entries(kategorieLabels).map(([k, v]) => (
                   <option key={k} value={k}>{v}</option>
@@ -92,7 +92,7 @@ export default function NastaveniPage() {
                 value={form.nazev}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
               />
             </div>
             <div>
@@ -103,7 +103,7 @@ export default function NastaveniPage() {
                 onChange={handleChange}
                 rows={3}
                 placeholder="Krátký popis vaší restaurace…"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all resize-none"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all resize-none text-base"
               />
             </div>
           </div>
@@ -123,7 +123,7 @@ export default function NastaveniPage() {
                 value={form.telefon}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
               />
             </div>
             <div>
@@ -136,7 +136,7 @@ export default function NastaveniPage() {
                 value={form.adresa}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
               />
             </div>
             <div>
@@ -149,7 +149,7 @@ export default function NastaveniPage() {
                 value={form.mesto}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
               />
             </div>
           </div>

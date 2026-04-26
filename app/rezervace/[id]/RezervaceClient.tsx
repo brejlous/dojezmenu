@@ -93,7 +93,7 @@ export default function RezervaceClient({ id }: { id: string }) {
               onChange={handleChange}
               required
               placeholder="Jan Novák"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
             />
           </div>
 
@@ -108,7 +108,7 @@ export default function RezervaceClient({ id }: { id: string }) {
               onChange={handleChange}
               required
               placeholder="+420 777 123 456 nebo jan@email.cz"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
             />
           </div>
 
@@ -120,7 +120,7 @@ export default function RezervaceClient({ id }: { id: string }) {
               <button
                 type="button"
                 onClick={() => setPocetPorci((p) => Math.max(1, p - 1))}
-                className="w-10 h-10 rounded-xl border border-gray-200 text-gray-600 text-lg font-bold flex items-center justify-center hover:bg-gray-50 transition-colors"
+                className="w-11 h-11 rounded-xl border border-gray-200 text-gray-600 text-lg font-bold flex items-center justify-center hover:bg-gray-50 transition-colors"
               >
                 −
               </button>
@@ -130,7 +130,7 @@ export default function RezervaceClient({ id }: { id: string }) {
               <button
                 type="button"
                 onClick={() => setPocetPorci((p) => Math.min(maxPorci, p + 1))}
-                className="w-10 h-10 rounded-xl border border-gray-200 text-gray-600 text-lg font-bold flex items-center justify-center hover:bg-gray-50 transition-colors"
+                className="w-11 h-11 rounded-xl border border-gray-200 text-gray-600 text-lg font-bold flex items-center justify-center hover:bg-gray-50 transition-colors"
               >
                 +
               </button>

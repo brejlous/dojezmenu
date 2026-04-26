@@ -1,13 +1,23 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Geist } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 
 const geist = Geist({ subsets: ['latin'] })
 
+export const viewport: Viewport = {
+  themeColor: '#16a34a',
+}
+
 export const metadata: Metadata = {
   title: 'DojezMenu – zachraňte dobré jídlo',
   description: 'Rezervujte si zbylé porce denního menu za zvýhodněnou cenu a vyzvedněte je přímo v restauraci.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'DojezMenu',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
