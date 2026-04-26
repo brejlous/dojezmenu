@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import NabidkyList from '@/components/NabidkyList'
 import { nabidky, getRestauraceById } from '@/lib/data'
 
@@ -40,12 +41,12 @@ export default function HomePage() {
         <p className="text-sm text-gray-600 mb-3">
           Nabídněte zbylé porce a snižte plýtvání jídlem.
         </p>
-        <a
+        <Link
           href="/restaurace/dashboard"
           className="inline-block bg-brand text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-brand-hover transition-colors"
         >
           Spravovat nabídky
-        </a>
+        </Link>
       </div>
     </div>
   )
