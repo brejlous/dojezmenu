@@ -35,8 +35,8 @@ export default function NabidkyList({ nabidky, restauraceMap }: Props) {
             onClick={() => setAktivniFiltr(f.key)}
             className={`shrink-0 text-xs px-3 py-2.5 rounded-full border font-medium transition-all whitespace-nowrap ${
               aktivniFiltr === f.key
-                ? 'bg-green-600 text-white border-green-600'
-                : 'bg-white text-gray-600 border-gray-200 hover:border-green-300'
+                ? 'bg-brand text-white border-brand'
+                : 'bg-white text-gray-600 border-gray-200 hover:border-brand-muted'
             }`}
           >
             {f.label}
@@ -47,7 +47,7 @@ export default function NabidkyList({ nabidky, restauraceMap }: Props) {
       {/* Section heading */}
       <div className="flex items-center justify-between mb-3">
         <h2 className="font-semibold text-gray-800">Dostupné dnes</h2>
-        <span className="text-xs text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded-full">
+        <span className="text-xs text-brand font-medium bg-brand-light px-2 py-0.5 rounded-full">
           {filtrovane.length} {filtrovane.length === 1 ? 'nabídka' : filtrovane.length < 5 ? 'nabídky' : 'nabídek'}
         </span>
       </div>

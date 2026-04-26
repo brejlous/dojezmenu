@@ -6,17 +6,17 @@ import Header from '@/components/Header'
 const geist = Geist({ subsets: ['latin'] })
 
 export const viewport: Viewport = {
-  themeColor: '#16a34a',
+  themeColor: '#94002A',
 }
 
 export const metadata: Metadata = {
-  title: 'DojezMenu – zachraňte dobré jídlo',
+  title: 'LastBite – zachraňte dobré jídlo',
   description: 'Rezervujte si zbylé porce denního menu za zvýhodněnou cenu a vyzvedněte je přímo v restauraci.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'DojezMenu',
+    title: 'LastBite',
   },
 }
 

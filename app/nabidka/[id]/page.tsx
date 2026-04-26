@@ -50,7 +50,7 @@ export default async function NabidkaDetailPage({ params }: { params: Promise<{ 
       {/* Hero */}
       <div className={`bg-gradient-to-r ${gradient} -mx-4 h-52 flex items-center justify-center relative`}>
         <span className="text-7xl">{emoji}</span>
-        <span className="absolute top-3 right-3 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full">
+        <span className="absolute top-3 right-3 bg-brand text-white text-sm font-bold px-3 py-1 rounded-full">
           -{sleva}%
         </span>
         {jePosledni && (
@@ -71,9 +71,9 @@ export default async function NabidkaDetailPage({ params }: { params: Promise<{ 
 
         {/* Info grid */}
         <div className="grid grid-cols-2 gap-3 mt-4">
-          <div className="bg-green-50 rounded-xl p-3">
+          <div className="bg-brand-light rounded-xl p-3">
             <div className="text-xs text-gray-500 mb-1">Zvýhodněná cena</div>
-            <div className="text-xl font-bold text-green-600">{formatCena(nabidka.zvyhodnenaCena)}</div>
+            <div className="text-xl font-bold text-brand">{formatCena(nabidka.zvyhodnenaCena)}</div>
             <div className="text-xs text-gray-400 line-through">původně {formatCena(nabidka.originalniCena)}</div>
           </div>
           <div className="bg-gray-50 rounded-xl p-3">
@@ -95,7 +95,6 @@ export default async function NabidkaDetailPage({ params }: { params: Promise<{ 
           </div>
         </div>
 
-        {/* Description */}
         {nabidka.popis && (
           <div className="mt-4">
             <h3 className="text-sm font-semibold text-gray-700 mb-1">O jídle</h3>
@@ -103,7 +102,6 @@ export default async function NabidkaDetailPage({ params }: { params: Promise<{ 
           </div>
         )}
 
-        {/* Restaurant note */}
         <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-3">
           <div className="flex gap-2">
             <span className="text-amber-500">💬</span>
@@ -118,7 +116,7 @@ export default async function NabidkaDetailPage({ params }: { params: Promise<{ 
 
         <Link
           href={`/rezervace/${nabidka.id}`}
-          className="block w-full mt-5 bg-green-600 hover:bg-green-700 text-white font-semibold py-3.5 rounded-2xl text-base transition-colors text-center"
+          className="block w-full mt-5 bg-brand hover:bg-brand-hover text-white font-semibold py-3.5 rounded-2xl text-base transition-colors text-center"
         >
           Rezervovat porci
         </Link>

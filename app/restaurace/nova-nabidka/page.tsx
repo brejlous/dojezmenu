@@ -49,8 +49,8 @@ export default function NovaNabidkaPage() {
   if (uspesne) {
     return (
       <div className="flex flex-col items-center text-center py-16">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-          <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mb-4">
+          <svg className="w-8 h-8 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
           </svg>
         </div>
@@ -89,7 +89,7 @@ export default function NovaNabidkaPage() {
                 onChange={handleChange}
                 required
                 placeholder="např. Kuřecí kari s rýží"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
               />
             </div>
             <div>
@@ -100,7 +100,7 @@ export default function NovaNabidkaPage() {
                 onChange={handleChange}
                 rows={3}
                 placeholder="Krátký popis jídla, alergenů nebo velikosti porce…"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all resize-none text-base"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all resize-none text-base"
               />
             </div>
             <div>
@@ -109,7 +109,7 @@ export default function NovaNabidkaPage() {
                 name="kategorie"
                 value={form.kategorie}
                 onChange={handleChange}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white text-base"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all bg-white text-base"
               >
                 {Object.entries(kategorieLabels).map(([k, v]) => (
                   <option key={k} value={k}>{v}</option>
@@ -136,7 +136,7 @@ export default function NovaNabidkaPage() {
                   required
                   min="1"
                   placeholder="169"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all pr-10 text-base"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all pr-10 text-base"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">Kč</span>
               </div>
@@ -154,7 +154,7 @@ export default function NovaNabidkaPage() {
                   required
                   min="1"
                   placeholder="109"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all pr-10 text-base"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all pr-10 text-base"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">Kč</span>
               </div>
@@ -162,10 +162,10 @@ export default function NovaNabidkaPage() {
           </div>
 
           {sleva > 0 && (
-            <div className="mt-2 bg-green-50 border border-green-100 rounded-xl p-3 flex items-center justify-between">
+            <div className="mt-2 bg-brand-light border border-brand-muted rounded-xl p-3 flex items-center justify-between">
               <span className="text-xs text-gray-600">Zákazník ušetří</span>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-green-600">{usporite} Kč</span>
+                <span className="text-sm font-bold text-brand">{usporite} Kč</span>
                 <span className="text-xs bg-red-500 text-white px-2 py-0.5 rounded-full font-bold">-{sleva}%</span>
               </div>
             </div>
@@ -193,7 +193,7 @@ export default function NovaNabidkaPage() {
                 onChange={(e) => setCelkemKusu(Math.max(1, parseInt(e.target.value) || 1))}
                 min="1"
                 max="50"
-                className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm text-center font-semibold outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
+                className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm text-center font-semibold outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted"
               />
               <button
                 type="button"
@@ -220,7 +220,7 @@ export default function NovaNabidkaPage() {
                 value={form.vyzvednoutOd}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
               />
             </div>
             <div>
@@ -233,7 +233,7 @@ export default function NovaNabidkaPage() {
                 value={form.vyzvednoutDo}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
               />
             </div>
           </div>
@@ -248,14 +248,14 @@ export default function NovaNabidkaPage() {
             onChange={handleChange}
             rows={2}
             placeholder="Volitelná poznámka (alergie, způsob platby, instrukce k vyzvednutí…)"
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all resize-none text-base"
+            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all resize-none text-base"
           />
         </div>
 
         <button
           type="submit"
           disabled={odesila}
-          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-300 text-white font-semibold py-3.5 rounded-2xl text-base transition-colors"
+          className="w-full bg-brand hover:bg-brand-hover disabled:bg-brand-muted text-white font-semibold py-3.5 rounded-2xl text-base transition-colors"
         >
           {odesila ? 'Ukládám…' : 'Zveřejnit nabídku'}
         </button>

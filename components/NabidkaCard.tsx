@@ -33,7 +33,7 @@ export default function NabidkaCard({ nabidka, restaurace }: Props) {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
         <div className={`bg-gradient-to-r ${gradient} h-32 flex items-center justify-center relative`}>
           <span className="text-5xl">{emoji}</span>
-          <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+          <span className="absolute top-2 right-2 bg-brand text-white text-xs font-bold px-2 py-0.5 rounded-full">
             -{sleva}%
           </span>
           {jePosledni && (
@@ -53,7 +53,7 @@ export default function NabidkaCard({ nabidka, restaurace }: Props) {
               <p className="text-xs text-gray-500 mt-0.5">{restaurace.nazev} · {restaurace.mesto}</p>
             </div>
             <div className="text-right shrink-0">
-              <div className="text-green-600 font-bold text-base">{formatCena(nabidka.zvyhodnenaCena)}</div>
+              <div className="text-brand font-bold text-base">{formatCena(nabidka.zvyhodnenaCena)}</div>
               <div className="text-gray-400 text-xs line-through">{formatCena(nabidka.originalniCena)}</div>
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function NabidkaCard({ nabidka, restaurace }: Props) {
               🍽 <span className="font-medium">{nabidka.zbyvajiciKusu}</span>{' '}
               {nabidka.zbyvajiciKusu === 1 ? 'porce zbývá' : nabidka.zbyvajiciKusu < 5 ? 'porce zbývají' : 'porcí zbývá'}
             </span>
-            <span className="text-xs bg-green-600 text-white px-3 py-1 rounded-full font-medium">
+            <span className="text-xs bg-brand text-white px-3 py-1 rounded-full font-medium">
               Rezervovat
             </span>
           </div>

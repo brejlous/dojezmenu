@@ -40,8 +40,8 @@ export default function NastaveniPage() {
   if (uspesne) {
     return (
       <div className="flex flex-col items-center text-center py-16">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-          <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mb-4">
+          <svg className="w-8 h-8 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
           </svg>
         </div>
@@ -75,7 +75,7 @@ export default function NastaveniPage() {
                 name="kategorie"
                 value={form.kategorie}
                 onChange={handleChange}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all bg-white text-base"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all bg-white text-base"
               >
                 {Object.entries(kategorieLabels).map(([k, v]) => (
                   <option key={k} value={k}>{v}</option>
@@ -92,7 +92,7 @@ export default function NastaveniPage() {
                 value={form.nazev}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all text-base"
               />
             </div>
             <div>
@@ -103,7 +103,7 @@ export default function NastaveniPage() {
                 onChange={handleChange}
                 rows={3}
                 placeholder="Krátký popis vaší restaurace…"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all resize-none text-base"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all resize-none text-base"
               />
             </div>
           </div>
@@ -123,7 +123,7 @@ export default function NastaveniPage() {
                 value={form.telefon}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all text-base"
               />
             </div>
             <div>
@@ -136,7 +136,7 @@ export default function NastaveniPage() {
                 value={form.adresa}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all text-base"
               />
             </div>
             <div>
@@ -149,7 +149,7 @@ export default function NastaveniPage() {
                 value={form.mesto}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all text-base"
               />
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function NastaveniPage() {
         <button
           type="submit"
           disabled={uklada}
-          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-300 text-white font-semibold py-3.5 rounded-2xl text-base transition-colors"
+          className="w-full bg-brand hover:bg-brand-hover disabled:bg-brand-muted text-white font-semibold py-3.5 rounded-2xl text-base transition-colors"
         >
           {uklada ? 'Ukládám…' : 'Uložit profil'}
         </button>

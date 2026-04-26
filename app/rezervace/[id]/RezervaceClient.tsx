@@ -26,7 +26,7 @@ export default function RezervaceClient({ id }: { id: string }) {
     return (
       <div className="text-center py-16">
         <p className="text-gray-500">Nabídka nenalezena.</p>
-        <Link href="/" className="text-green-600 mt-2 inline-block">← Zpět</Link>
+        <Link href="/" className="text-brand mt-2 inline-block">← Zpět</Link>
       </div>
     )
   }
@@ -69,14 +69,14 @@ export default function RezervaceClient({ id }: { id: string }) {
 
       <div className="mt-5">
         {/* Summary strip */}
-        <div className="bg-green-50 border border-green-200 rounded-2xl p-4 flex items-center gap-3 mb-6">
+        <div className="bg-brand-light border border-brand-muted rounded-2xl p-4 flex items-center gap-3 mb-6">
           <span className="text-3xl">{emoji}</span>
           <div className="flex-1 min-w-0">
             <div className="font-semibold text-gray-800 text-sm">{nabidka.nazev}</div>
             <div className="text-xs text-gray-500">{restaurace.nazev} · dnes {nabidka.vyzvednoutOd}–{nabidka.vyzvednoutDo}</div>
           </div>
           <div className="text-right shrink-0">
-            <div className="font-bold text-green-600">{formatCena(nabidka.zvyhodnenaCena)}</div>
+            <div className="font-bold text-brand">{formatCena(nabidka.zvyhodnenaCena)}</div>
             <div className="text-xs text-gray-400">/ porce</div>
           </div>
         </div>
@@ -93,7 +93,7 @@ export default function RezervaceClient({ id }: { id: string }) {
               onChange={handleChange}
               required
               placeholder="Jan Novák"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
             />
           </div>
 
@@ -108,7 +108,7 @@ export default function RezervaceClient({ id }: { id: string }) {
               onChange={handleChange}
               required
               placeholder="+420 777 123 456 nebo jan@email.cz"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all text-base"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all"
             />
           </div>
 
@@ -124,7 +124,7 @@ export default function RezervaceClient({ id }: { id: string }) {
               >
                 −
               </button>
-              <div className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm text-center font-semibold text-gray-900">
+              <div className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-base text-center font-semibold text-gray-900">
                 {pocetPorci}
               </div>
               <button
@@ -145,7 +145,7 @@ export default function RezervaceClient({ id }: { id: string }) {
             </div>
             <div className="border-t border-gray-200 pt-2 flex justify-between font-semibold text-gray-800">
               <span>Celkem k zaplacení</span>
-              <span className="text-green-600">{formatCena(celkem)}</span>
+              <span className="text-brand">{formatCena(celkem)}</span>
             </div>
             <div className="text-xs text-gray-400 text-center">Platba probíhá na místě v restauraci</div>
           </div>
@@ -158,14 +158,14 @@ export default function RezervaceClient({ id }: { id: string }) {
               onChange={handleChange}
               rows={2}
               placeholder="Např. alergie, speciální požadavky…"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all resize-none"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base outline-none focus:border-brand focus:ring-2 focus:ring-brand-muted transition-all resize-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={odesila}
-            className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-300 text-white font-semibold py-3.5 rounded-2xl text-base transition-colors"
+            className="w-full bg-brand hover:bg-brand-hover disabled:bg-brand-muted text-white font-semibold py-3.5 rounded-2xl text-base transition-colors"
           >
             {odesila ? 'Odesílám…' : 'Potvrdit rezervaci'}
           </button>
